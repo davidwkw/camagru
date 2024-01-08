@@ -1,0 +1,67 @@
+version: "3.8"
+
+name: camagru
+
+services:
+  backend:
+    container_name: nginx-backend
+    image: nginx:1.25.3-bookworm
+    restart: unless-stopped
+    networks:
+      - camagru
+    ports:
+      - ${HOST_PORT}:${SERVER_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+    configs:
+      - source: camagru_nginx_conf_template
+        target: /etc/nginx/templates/default.conf.template
+      - source: backend_configuration_script
+        target: /docker-entrypoint.d/configure.sh
+    volumes:
+      - ./volumes/backend_data:/var/www/html/camagru
+
+  db:
+    container_name: db
+    image: postgres:16.1-alpine3.19
+    networks:
+      - camagru
+    restart: unless-stopped
+    volumes:
+      - postgreql_db_data:/var/lib/postgresql
+    expose:
+      - ${DB_PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    configs:
+      - source: postgresql_configuration
+        target: /etc/postgresql.conf
+
+networks:
+  camagru:
+
+volumes:
+  postgreql_db_data:
+
+configs:
+  camagru_nginx_conf_template:
+    file: ./docker/nginx/conf/default.conf.template
+  backend_configuration_script:
+    file: ./docker/nginx/conf/configure.sh
+  postgresql_configuration:
+    file: ./docker/postgresql/conf/postgresql.conf

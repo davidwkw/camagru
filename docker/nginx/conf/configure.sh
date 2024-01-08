@@ -15,7 +15,7 @@ if ! [ -d "/var/www/html" ]; then
     chmod -R 777 /var/www/html/camagru
 fi
 
-sed -i 's/user\s*nginx;/user\s*www-data;/g' /etc/nginx/nginx.conf
+sed -i 's/user\s*nginx;/user www-data;/g' /etc/nginx/nginx.conf
 
 echo "Setting up fpm-cgi pool config..."
 sed -i "s/^;\s*ping.path\s*=\s*\/ping/ping.path = \/ping/g" /etc/php/8.2/fpm/pool.d/www.conf

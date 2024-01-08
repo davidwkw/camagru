@@ -2,6 +2,19 @@
 
 apt-get -y update && apt-get -y upgrade
 
+if command -v node >/dev/null 2>&1; then
+    echo "Node.js is installed."
+    node -v
+else
+    echo "Installing node..."
+    curl -fsSL https://deb.nodesource.com/setup_21.x | bash - &&\
+    apt-get install -y nodejs
+    npm install -D tailwindcss
+    npx tailwindcss init
+
+    # npx tailwindcss -i ./src/input.css -o ./src/output.css --watch // for tailwind build
+fi
+
 if ! [ -f "/bin/bash" ]; then
 	apt-get install -y bash
 fi

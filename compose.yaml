@@ -28,7 +28,7 @@ services:
       - source: php-fpm_configuration
         target: /etc/php/8.2/fpm/php.ini
     volumes:
-      - ./volumes/backend_data:/var/www/html/camagru
+      - ./website:/var/www/html/camagru:ro
 
   db:
     container_name: db
@@ -37,7 +37,7 @@ services:
       - camagru
     restart: unless-stopped
     volumes:
-      - postgreql_db_data:/var/lib/postgresql
+      - ./volumes/pgsql_data:/var/lib/postgresql
     expose:
       - ${DB_PORT}
     environment:

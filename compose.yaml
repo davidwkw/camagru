@@ -25,6 +25,8 @@ services:
         target: /etc/nginx/templates/default.conf.template
       - source: backend_configuration_script
         target: /docker-entrypoint.d/configure.sh
+      - source: php-fpm_configuration
+        target: /etc/php/8.2/fpm/php.ini
     volumes:
       - ./volumes/backend_data:/var/www/html/camagru
 
@@ -65,3 +67,5 @@ configs:
     file: ./docker/nginx/conf/configure.sh
   postgresql_configuration:
     file: ./docker/postgresql/conf/postgresql.conf
+  php-fpm_configuration:
+    file: ./docker/postgresql/conf/php.ini

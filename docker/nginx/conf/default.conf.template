@@ -5,7 +5,7 @@ server {
     server_name     localhost;
 
     index           index.php index.html index.htm index.nginx-debian.html;
-    root            /var/www/html/camagru;
+    root            /var/www/html/camagru/website;
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;

@@ -8,7 +8,8 @@ NODE_DIR = node_modules
 
 all:
 	cd ./src && npm install package.json
-	cd ./src && npm install typescript --save-dev && npx tsc
+	cd ./src && npm install -D typescript && npx tsc
+	cd ./src && npm install -D tailwindcss && npx tailwindcss init && npx tailwindcss -i ./view/css/input.css -o ./view/css/input.css
 	docker compose up --build -d
 
 start:

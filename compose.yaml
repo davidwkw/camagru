@@ -28,7 +28,7 @@ services:
       - source: php-fpm_configuration
         target: /etc/php/8.2/fpm/php.ini
     volumes:
-      - ./website:/var/www/html/camagru:ro
+      - ./src:/var/www/html/camagru:ro
 
   db:
     container_name: db

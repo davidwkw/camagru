@@ -4,7 +4,11 @@ CLEAN_IMAGES	= --rmi all
 CLEAN_ORPHANS	= --remove-orphans
 CLEAN_VOLUMES	= --volumes
 
+NODE_DIR = node_modules
+
 all:
+	cd ./src && npm install package.json
+	cd ./src && npm install typescript --save-dev && npx tsc
 	docker compose up --build -d
 
 start:

@@ -1,9 +1,18 @@
 {
+  "name": "camagru",
+  "version": "1.0.0",
+  "description": "The goal of this project is to build a web application",
+  "keywords": [],
+  "author": "Wang Khang Waei",
+  "license": "ISC",
+  "scripts": {
+    "build-css": "tailwindcss build -i ./view/css/styles.css -o ./view/css/global.css --watch"
+  },
   "devDependencies": {
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "package.json": "^2.0.1"
+    "package.json": "^0.0.0"
   }
 }

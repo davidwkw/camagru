@@ -15,9 +15,10 @@ if ! [ -f "/bin/bash" ]; then
 	apt-get install -y bash
 fi
 
-apt-get install -y php8.2-fpm php8.2-pgsql
-
-cp /php-fpm_conf/php.ini /etc/php/8.2/fpm/php.ini
+if ! [ -d "/etc/php/8.2/fpm" ]; then
+	apt-get install -y php8.2-fpm php8.2-pgsql
+    cp /php-fpm_conf/php.ini /etc/php/8.2/fpm/php.ini
+fi
 
 if ! [ -d "/var/www/html" ]; then
 	mkdir -p /var/www/html/camagru

@@ -3,3 +3,4 @@
 .git
 *.pdf
 todo.md
+**/node_modules

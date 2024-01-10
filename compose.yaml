@@ -26,7 +26,7 @@ services:
       - source: backend_configuration_script
         target: /docker-entrypoint.d/configure.sh
       - source: php-fpm_configuration
-        target: /etc/php/8.2/fpm/php.ini
+        target: /php-fpm_conf/php.ini
     volumes:
       - ./src:/var/www/html/camagru:ro
 

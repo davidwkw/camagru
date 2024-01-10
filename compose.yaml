@@ -68,4 +68,4 @@ configs:
   postgresql_configuration:
     file: ./docker/postgresql/conf/postgresql.conf
   php-fpm_configuration:
-    file: ./docker/postgresql/conf/php.ini
+    file: ./docker/nginx/conf/php.ini

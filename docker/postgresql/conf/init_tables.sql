@@ -18,8 +18,8 @@ CREATE TABLE "posts" (
 
 CREATE TABLE "likes" (
   "likes_id" uuid PRIMARY KEY,
-  "user_id" uuid,
-  "post_id" uuid
+  "user_id" uuid UNIQUE,
+  "post_id" uuid UNIQUE
 );
 
 CREATE TABLE "comments" (

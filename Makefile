@@ -10,6 +10,12 @@ all:
 	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css
 	docker compose up --build -d
 
+dev:
+	cd ./src && npm install && \
+	npx --package typescript tsc && \
+	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css
+	docker compose --profile development -f compose.yml -f compose.dev.yml up --build -d 
+
 start:
 	docker compose start -d
 

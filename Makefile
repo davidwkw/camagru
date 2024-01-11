@@ -5,11 +5,9 @@ CLEAN_ORPHANS	= --remove-orphans
 CLEAN_VOLUMES	= --volumes
 
 all:
-	cd ./src && npm install package.json && \
-	npm install -D typescript && npx tsc && \
-	npm install -D tailwindcss && npx tailwindcss init && \
-	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css &&\
-	npm audit fix --force
+	cd ./src && npm install && \
+	npx --package typescript tsc && \
+	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css
 	docker compose up --build -d
 
 start:

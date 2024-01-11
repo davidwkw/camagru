@@ -37,7 +37,7 @@ services:
       - camagru
     restart: unless-stopped
     volumes:
-      - ./volumes/pgsql_data:/var/lib/postgresql
+      - postgreql_db_data:/var/lib/postgresql/data
     expose:
       - ${DB_PORT}
     environment:
@@ -46,7 +46,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
       DB_PORT: ${DB_PORT}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
+      test: [ "CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -56,11 +56,22 @@ services:
       - source: postgresql_configuration_init_tables
         target: /docker-entrypoint-initdb.d/init_tables.sql
 
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      - camagru
+
 networks:
   camagru:
 
+
 volumes:
   postgreql_db_data:
+
 
 configs:
   camagru_nginx_conf_template:

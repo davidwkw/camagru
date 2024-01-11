@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
+use PgSql\Connection;
+
 require("../model/User.php");
 
-class DataSource
+class PGSQLDataSource
 {
-    private string $type;
     private string $host;
     private string $port;
     private string $dbName;
     private string $dbUser;
     private string $dbPassword;
-    private null | PDO $dbConnection;
+    private null | Connection | false $dbConnection;
 
-    public function __construct($type, $host, $port, $dbName, $dbUser, $dbPassword)
+    public function __construct($host, $port, $dbName, $dbUser, $dbPassword)
     {
-        $this->type = $type;
         $this->host = $host;
         $this->port = $port;
         $this->dbName = $dbName;
@@ -36,31 +36,14 @@ class DataSource
 
     private function establishDbConnection(): void
     {
-        $type = $this->selectDSNName($this->type);
-        $dsn = "$type:dbname=$this->dbName;host=$this->host;port=$this->port";
-        $pdoModes = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => true];
-        $this->dbConnection = new PDO($dsn, $this->dbUser, $this->dbPassword, $pdoModes);
+        $connectionString = "host = $this->host port = $this->port dbname = $this->dbName user = $this->dbUser $ password=$this->dbPassword";
+        $this->dbConnection = pg_connect($connectionString);
         if (!$this->dbConnection) {
-            throw new PDOException("Connection to database has failed");
-        }
-        $this->dbConnection->beginTransaction();
-    }
-
-    private function selectDSNName(string $type): string
-    {
-        $type = strtolower($type);
-
-        switch ($type) {
-            case 'postgresql':
-                return 'pgsql';
-            case 'mysql':
-                return 'mysql';
-            default:
-                throw new PDOException("Database type is not supported");
+            throw new PDOException("Error : Unable to open database\n");
         }
     }
 
-    public function getConnection(): PDO
+    public function getConnection(): Connection
     {
         return $this->dbConnection;
     }

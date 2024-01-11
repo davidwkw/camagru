@@ -4,12 +4,12 @@ CLEAN_IMAGES	= --rmi all
 CLEAN_ORPHANS	= --remove-orphans
 CLEAN_VOLUMES	= --volumes
 
-NODE_DIR = node_modules
-
 all:
-	cd ./src && npm install package.json
-	cd ./src && npm install -D typescript && npx tsc
-	cd ./src && npm install -D tailwindcss && npx tailwindcss init && npx tailwindcss -i ./view/css/input.css -o ./view/css/input.css
+	cd ./src && npm install package.json && \
+	npm install -D typescript && npx tsc && \
+	npm install -D tailwindcss && npx tailwindcss init && \
+	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css &&\
+	npm audit fix --force
 	docker compose up --build -d
 
 start:

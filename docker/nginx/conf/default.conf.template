@@ -4,11 +4,12 @@ server {
 
     server_name     localhost;
 
-    index           index.php index.html index.htm index.nginx-debian.html;
+    index           index.php index.html index.htm;
     root            /var/www/html/camagru;
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
+        root /var/www/html/camagru/website;
     }
 
     location ~ \.php$ {
@@ -17,6 +18,16 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         try_files $uri =404; # This is not needed if you have cgi.fix_pathinfo = 0 in php.ini (you should!)
         fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+
+    location ~ \.css$ {
+        try_files $uri 404;
+        root /var/www/html/camagru/view/css;
+    }
+
+    location ~ \.js$ {
+        try_files $uri 404;
+        root /var/www/html/camagru/view/js;
     }
 
     # deny access to .htaccess files, if Apache's document root

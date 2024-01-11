@@ -56,15 +56,6 @@ services:
       - source: postgresql_configuration_init_tables
         target: /docker-entrypoint-initdb.d/init_tables.sql
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: unless-stopped
-    ports:
-      - 8080:8080
-    networks:
-      - camagru
-
 networks:
   camagru:
 

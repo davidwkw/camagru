@@ -53,6 +53,8 @@ services:
     configs:
       - source: postgresql_configuration
         target: /etc/postgresql.conf
+      - source: postgresql_configuration_init_tables
+        target: /docker-entrypoint-initdb.d/init_tables.sql
 
 networks:
   camagru:
@@ -67,5 +69,7 @@ configs:
     file: ./docker/nginx/conf/configure.sh
   postgresql_configuration:
     file: ./docker/postgresql/conf/postgresql.conf
+  postgresql_configuration_init_tables:
+    file: ./docker/postgresql/conf/init_tables.sql
   php-fpm_configuration:
     file: ./docker/nginx/conf/php.ini

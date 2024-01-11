@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class PSQLDB
+require("../model/User.php");
+
+class DataSource
 {
     private string $type;
     private string $host;
@@ -27,11 +29,16 @@ class PSQLDB
         }
     }
 
+    public function __destruct()
+    {
+        $this->dbConnection = null; // disconnect from db
+    }
+
     private function establishDbConnection(): void
     {
         $type = $this->selectDSNName($this->type);
         $dsn = "$type:dbname=$this->dbName;host=$this->host;port=$this->port";
-        $pdoModes = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
+        $pdoModes = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => true];
         $this->dbConnection = new PDO($dsn, $this->dbUser, $this->dbPassword, $pdoModes);
         if (!$this->dbConnection) {
             throw new PDOException("Connection to database has failed");
@@ -53,9 +60,13 @@ class PSQLDB
         }
     }
 
-    public function getConnection()
+    public function getConnection(): PDO
     {
         return $this->dbConnection;
+    }
+
+    public function getRepository(UserRecord $recordType)
+    {
     }
 }
 

@@ -32,34 +32,34 @@ CREATE TABLE "comments" (
 
 CREATE TABLE "sessions" (
   "user_id" uuid,
-  "session_id" uuid NOT NULL DEFAULT (gen_random_uuid()),
+  "session_id" uuid PRIMARY KEY,
   "created_at" timestamp DEFAULT (now())
 );
 
 CREATE TABLE "password_resets" (
   "user_id" uuid,
-  "password_key" uuid NOT NULL DEFAULT (gen_random_uuid()),
+  "password_id" uuid PRIMARY KEY,
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "registrations" (
   "user_id" uuid,
-  "registration_code" uuid NOT NULL DEFAULT (gen_random_uuid()),
+  "registration_id" uuid PRIMARY KEY,
   "created_at" timestamp NOT NULL DEFAULT (now())
 );
 
-ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "users" ADD FOREIGN KEY ("user_id") REFERENCES "sessions" ("user_id");
+ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "likes" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("post_id");
+ALTER TABLE "registrations" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "comments" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("post_id");
+ALTER TABLE "password_resets" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "likes" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "likes" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "comments" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "comments" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "password_resets" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "likes" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("post_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "registrations" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "comments" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("post_id") ON DELETE CASCADE ON UPDATE CASCADE;

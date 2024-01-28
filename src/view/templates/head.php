@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="global.css">
     <?php
     foreach ($cssPaths as $cssPath) {
-        echo "<link rel=\"stylesheet\" href=\"{$cssPath}\" />";
+        echo "<link rel=\"stylesheet\" href=\"{$cssPath}\">";
     }
 
     foreach ($scriptPaths as $scriptPath) {

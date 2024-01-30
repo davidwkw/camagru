@@ -9,25 +9,20 @@ server {
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
-        root /var/www/html/camagru/controller;
+        root /var/www/html/camagru/public;
     }
 
     location ~ \.php$ {
-        root /var/www/html/camagru/controller;
+        root /var/www/html/camagru/public;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         try_files $uri =404; # This is not needed if you have cgi.fix_pathinfo = 0 in php.ini (you should!)
         fastcgi_pass unix:/run/php/php8.2-fpm.sock;
     }
 
-    location ~ \.css$ {
+    location ~ \.(css|js)$ {
         try_files $uri 404;
-        root /var/www/html/camagru/view/css;
-    }
-
-    location ~ \.js$ {
-        try_files $uri 404;
-        root /var/www/html/camagru/view/js;
+        root /var/www/html/camagru/static;
     }
 
     # deny access to .htaccess files, if Apache's document root

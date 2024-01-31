@@ -16,7 +16,7 @@ if ! [ -f "/bin/bash" ]; then
 fi
 
 if ! [ -d "/etc/php/8.2/fpm" ]; then
-	apt-get install -y php8.2-fpm php8.2-pgsql
+	apt-get install -y php8.2-fpm php8.2-pgsql php8.2-curl
     cp /php-fpm_conf/php.ini /etc/php/8.2/fpm/php.ini
 fi
 

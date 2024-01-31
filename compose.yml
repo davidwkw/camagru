@@ -23,14 +23,16 @@ services:
     configs:
       - source: camagru_nginx_conf_template
         target: /etc/nginx/templates/default.conf.template
-      - source: composer_install_script
-        target: /docker-entrypoint.d/script-composer-install.sh
       - source: backend_configuration_script
         target: /docker-entrypoint.d/configure.sh
+      - source: composer_install_script
+        target: /docker-entrypoint.d/script-composer-install.sh
+      - source: composer_dependency_install_script
+        target: /docker-entrypoint.d/script-composer-install-deps.sh
       - source: php-fpm_configuration
         target: /php-fpm_conf/php.ini
     volumes:
-      - ./app:/var/www/html/camagru:ro
+      - ./app:/var/www/html/camagru
 
   db:
     container_name: db
@@ -79,3 +81,5 @@ configs:
     file: ./docker/nginx/conf/php.ini
   composer_install_script:
     file: ./docker/nginx/conf/script-composer-install.sh
+  composer_dependency_install_script:
+    file: ./docker/nginx/conf/script-composer-install-deps.sh

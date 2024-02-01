@@ -5,24 +5,26 @@ server {
     server_name     localhost;
 
     index           index.php index.html index.htm;
-    root            /var/www/html/camagru;
+    root            /var/www/html/camagru/public;
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
-        root /var/www/html/camagru/public;
     }
 
-    location ~ \.php$ {
-        root /var/www/html/camagru/public;
+    # refer to https://symfony.com/doc/current/setup/web_server_configuration.html
+    location ~ ^/index\.php(/|$) {
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        try_files $uri =404; # This is not needed if you have cgi.fix_pathinfo = 0 in php.ini (you should!)
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
         fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        internal;
     }
 
-    location ~ \.(css|js)$ {
-        try_files $uri 404;
-        root /var/www/html/camagru/static;
+    # return 404 for all other php files not matching the front controller
+    # this prevents access to other php files you don't want to be accessible.
+    location ~ \.php$ {
+        return 404;
     }
 
     # deny access to .htaccess files, if Apache's document root

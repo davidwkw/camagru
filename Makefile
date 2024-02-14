@@ -7,13 +7,13 @@ CLEAN_VOLUMES	= --volumes
 all:
 	cd ./app && npm install && \
 	npx --package typescript tsc && \
-	npx tailwindcss -i ./static/styles.css -o ./static/global.css
+	npx tailwindcss -i ./assets/css/styles.css -o ./public/css/global.css
 	docker compose up --build -d
 
 dev:
 	cd ./app && npm install && \
 	npx --package typescript tsc && \
-	npx tailwindcss -i ./view/css/styles.css -o ./view/css/global.css
+	npx tailwindcss -i ./assets/css/styles.css -o ./public/css/global.css
 	docker compose --profile development -f compose.yml -f compose.dev.yml up --build -d
 
 start:
